@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-class CostumTextField extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final String hint;
-  const CostumTextField({super.key, required this.hint});
+  final TextEditingController controller;
+  final bool isObscureText;
+  const CustomTextField({
+    super.key,
+    required this.hint,
+    required this.controller,
+    this.isObscureText = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -10,6 +17,14 @@ class CostumTextField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hint,
       ),
+      validator: (value) {
+        if (value!.trim().isEmpty) {
+          return '$hint is empty';
+        }
+        return null;
+      },
+      controller: controller,
+      obscureText: isObscureText,
     );
   }
 }
