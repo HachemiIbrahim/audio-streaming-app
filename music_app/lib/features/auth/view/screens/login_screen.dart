@@ -3,22 +3,20 @@ import 'package:music_app/core/theme/pallete.dart';
 import 'package:music_app/features/auth/view/widgets/elevated_button.dart';
 import 'package:music_app/core/widgets/text_field.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
-  final TextEditingController nameController = TextEditingController();
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -37,15 +35,10 @@ class _SignupScreenState extends State<SignupScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "Sign Up.",
+                "Sign In.",
                 style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: querry.height * 0.06),
-              CustomTextField(
-                hint: 'name',
-                controller: nameController,
-              ),
-              SizedBox(height: querry.height * 0.012),
               CustomTextField(
                 hint: 'Email',
                 controller: emailController,
@@ -58,17 +51,17 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: querry.height * 0.012),
               CustomElevatedButton(
-                name: "Sign up",
+                name: "Sign in",
                 onTap: () {},
               ),
               SizedBox(height: querry.height * 0.012),
               RichText(
                 text: TextSpan(
-                  text: "Already have an acount ? ",
+                  text: "Don't have an acount ? ",
                   style: Theme.of(context).textTheme.titleMedium,
                   children: const [
                     TextSpan(
-                      text: "Sign In",
+                      text: "Sign Up",
                       style: TextStyle(
                         color: Pallete.gradient2,
                         fontWeight: FontWeight.bold,

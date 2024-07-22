@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:music_app/core/theme/pallete.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-  const CustomElevatedButton({super.key});
+  final String name;
+  final VoidCallback onTap;
+  const CustomElevatedButton(
+      {super.key, required this.name, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +23,15 @@ class CustomElevatedButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: Pallete.transparentColor,
           shadowColor: Pallete.transparentColor,
           fixedSize: Size(querry.width, querry.height * 0.05),
         ),
-        child: const Text(
-          "Sign Up",
-          style: TextStyle(
+        child: Text(
+          name,
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
