@@ -17,11 +17,11 @@ def create(request: UserBase, db: Session):
     return new_user
 
 
-def get_user_by_username(db: Session, username=str):
-    user = db.query(models.User).filter(models.User.username == username).first()
+def get_user_by_email(db: Session, email=str):
+    user = db.query(models.User).filter(models.User.email == email).first()
     if not user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with username {username} not found",
+            detail=f"User with email {email} not found",
         )
     return user
