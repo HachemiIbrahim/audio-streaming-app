@@ -10,6 +10,6 @@ router = APIRouter(
 )
 
 
-@router.post("", status_code=status.HTTP_201_CREATED)
+@router.post("/signup", status_code=status.HTTP_201_CREATED)
 def create_user(request: schema.UserBase, db: Session = Depends(get_db)):
     return user_repository.create(request, db)

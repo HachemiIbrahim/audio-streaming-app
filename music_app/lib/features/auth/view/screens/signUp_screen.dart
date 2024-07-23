@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/core/theme/pallete.dart';
+import 'package:music_app/features/auth/repository/auth_remote_repository.dart';
 import 'package:music_app/features/auth/view/widgets/elevated_button.dart';
 import 'package:music_app/core/widgets/text_field.dart';
 
@@ -28,6 +29,7 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     final querry = MediaQuery.of(context).size;
+    final AuthRemoteRepository authRemoteRepository = AuthRemoteRepository();
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: querry.width * 0.03),
@@ -59,7 +61,13 @@ class _SignupScreenState extends State<SignupScreen> {
               SizedBox(height: querry.height * 0.012),
               CustomElevatedButton(
                 name: "Sign up",
-                onTap: () {},
+                onTap: () async {
+                  await authRemoteRepository.signUp(
+                    name: nameController.text,
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+                },
               ),
               SizedBox(height: querry.height * 0.012),
               RichText(
