@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:music_app/core/theme/pallete.dart';
+import 'package:music_app/features/auth/repository/auth_remote_repository.dart';
+import 'package:music_app/features/auth/view/screens/signUp_screen.dart';
 import 'package:music_app/features/auth/view/widgets/elevated_button.dart';
 import 'package:music_app/core/widgets/text_field.dart';
 
@@ -11,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final AuthRemoteRepository authRemoteRepository = AuthRemoteRepository();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -52,22 +56,37 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: querry.height * 0.012),
               CustomElevatedButton(
                 name: "Sign in",
-                onTap: () {},
+                onTap: () async {
+                  print(emailController.text);
+                  print(passwordController.text);
+                  await authRemoteRepository.login(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+                },
               ),
               SizedBox(height: querry.height * 0.012),
-              RichText(
-                text: TextSpan(
-                  text: "Don't have an acount ? ",
-                  style: Theme.of(context).textTheme.titleMedium,
-                  children: const [
-                    TextSpan(
-                      text: "Sign Up",
-                      style: TextStyle(
-                        color: Pallete.gradient2,
-                        fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SignupScreen(),
+                  ),
+                ),
+                child: RichText(
+                  text: TextSpan(
+                    text: "Don't have an acount ? ",
+                    style: Theme.of(context).textTheme.titleMedium,
+                    children: const [
+                      TextSpan(
+                        text: "Sign Up",
+                        style: TextStyle(
+                          color: Pallete.gradient2,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],

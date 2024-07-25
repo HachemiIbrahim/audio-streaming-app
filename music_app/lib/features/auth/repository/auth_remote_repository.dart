@@ -25,5 +25,19 @@ class AuthRemoteRepository {
     print(response.body);
   }
 
-  Future<void> login() async {}
+  Future<void> login({
+    required String email,
+    required String password,
+  }) async {
+    final response = await http.post(
+      Uri.parse("http://10.0.2.2:8000/login"),
+      headers: {},
+      body: {
+        'username': email,
+        'password': password,
+      },
+    );
+    print(response.statusCode);
+    print(response.body);
+  }
 }

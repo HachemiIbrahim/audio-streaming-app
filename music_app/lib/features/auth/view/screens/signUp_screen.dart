@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:music_app/core/theme/pallete.dart';
 import 'package:music_app/features/auth/repository/auth_remote_repository.dart';
+import 'package:music_app/features/auth/view/screens/login_screen.dart';
 import 'package:music_app/features/auth/view/widgets/elevated_button.dart';
 import 'package:music_app/core/widgets/text_field.dart';
 
@@ -70,19 +72,27 @@ class _SignupScreenState extends State<SignupScreen> {
                 },
               ),
               SizedBox(height: querry.height * 0.012),
-              RichText(
-                text: TextSpan(
-                  text: "Already have an acount ? ",
-                  style: Theme.of(context).textTheme.titleMedium,
-                  children: const [
-                    TextSpan(
-                      text: "Sign In",
-                      style: TextStyle(
-                        color: Pallete.gradient2,
-                        fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                ),
+                child: RichText(
+                  text: TextSpan(
+                    text: "Already have an acount ? ",
+                    style: Theme.of(context).textTheme.titleMedium,
+                    children: const [
+                      TextSpan(
+                        text: "Sign In",
+                        style: TextStyle(
+                          color: Pallete.gradient2,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],
