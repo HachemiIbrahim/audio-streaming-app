@@ -1,43 +1,63 @@
 import 'dart:convert';
-
+import 'package:fpdart/fpdart.dart';
+import 'package:music_app/core/failure/failure.dart';
+import 'package:music_app/features/auth/model/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRemoteRepository {
-  Future<void> signUp({
+  Future<Either<AppFailure, UserModel>> signUp({
     required String name,
     required String email,
     required String password,
   }) async {
-    final response = await http.post(
-      Uri.parse("http://10.0.2.2:8000/user/signup"),
-      headers: {
-        'Content-Type': 'application/json', // Set the content type
-      },
-      body: jsonEncode(
-        {
-          'username': name,
-          'email': email,
-          'password': password,
+    try {
+      final response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/user/signup"),
+        headers: {
+          'Content-Type': 'application/json', // Set the content type
         },
-      ),
-    );
-    print(response.statusCode);
-    print(response.body);
+        body: jsonEncode(
+          {
+            'username': name,
+            'email': email,
+            'password': password,
+          },
+        ),
+      );
+      final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
+
+      if (response.statusCode != 201) {
+        return Left(AppFailure(resBodyMap['detail']));
+      }
+
+      return Right(UserModel.fromMap(resBodyMap));
+    } catch (e) {
+      return Left(AppFailure(e.toString()));
+    }
   }
 
-  Future<void> login({
+  Future<Either<AppFailure, UserModel>> login({
     required String email,
     required String password,
   }) async {
-    final response = await http.post(
-      Uri.parse("http://10.0.2.2:8000/login"),
-      headers: {},
-      body: {
-        'username': email,
-        'password': password,
-      },
-    );
-    print(response.statusCode);
-    print(response.body);
+    try {
+      final response = await http.post(
+        Uri.parse("http://10.0.2.2:8000/login"),
+        headers: {},
+        body: {
+          'username': email,
+          'password': password,
+        },
+      );
+      final resBodyMap = jsonDecode(response.body) as Map<String, dynamic>;
+      print(resBodyMap);
+      if (response.statusCode != 200) {
+        return Left(AppFailure(resBodyMap['detail']));
+      }
+
+      return Right(UserModel.fromMap(resBodyMap));
+    } catch (e) {
+      return Left(AppFailure(e.toString()));
+    }
   }
 }

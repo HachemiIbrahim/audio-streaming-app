@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:fpdart/fpdart.dart' as fpdart;
 import 'package:music_app/core/theme/pallete.dart';
 import 'package:music_app/features/auth/repository/auth_remote_repository.dart';
 import 'package:music_app/features/auth/view/screens/signUp_screen.dart';
@@ -57,12 +57,15 @@ class _LoginScreenState extends State<LoginScreen> {
               CustomElevatedButton(
                 name: "Sign in",
                 onTap: () async {
-                  print(emailController.text);
-                  print(passwordController.text);
-                  await authRemoteRepository.login(
+                  final res = await authRemoteRepository.login(
                     email: emailController.text,
                     password: passwordController.text,
                   );
+                  final val = switch (res) {
+                    fpdart.Left(value: final l) => l,
+                    fpdart.Right(value: final r) => r,
+                  };
+                  print(val);
                 },
               ),
               SizedBox(height: querry.height * 0.012),
