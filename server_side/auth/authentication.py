@@ -42,5 +42,9 @@ def login(
 
 @router.get("/")
 def get_current_user(token: str, db: Session = Depends(get_db)):
-    user = oauth2.get_current_user(token, db)
+    response = oauth2.verify_token(token, db)
+    user = db.query(models.User).filter(models.User.id == response["id"]).first()
+    if not user:
+        raise HTTPException(404, "User not found!")
+
     return user
