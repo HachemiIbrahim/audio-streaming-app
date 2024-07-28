@@ -17,6 +17,10 @@ class AuthViewModel extends _$AuthViewModel {
     return null;
   }
 
+  Future<void> initSharedPreferences() async {
+    await _authLocalRepository.init();
+  }
+
   Future<void> signUp(
       {required String name,
       required String email,
@@ -59,5 +63,25 @@ class AuthViewModel extends _$AuthViewModel {
   AsyncValue<UserModel>? _loginSuccess(UserModel user) {
     _authLocalRepository.setToken(user.token);
     return state = AsyncValue.data(user);
+  }
+
+  Future<UserModel?> getData() async {
+    state = const AsyncValue.loading();
+    final token = _authLocalRepository.getToken();
+
+    if (token != null) {
+      final res = await _authRemoteRepository.getCurrentUserData(token);
+      final val = switch (res) {
+        fpdart.Left(value: final l) => state = AsyncValue.error(
+            l.message,
+            StackTrace.current,
+          ),
+        fpdart.Right(value: final r) => AsyncValue.data(r),
+      };
+
+      return val.value;
+    }
+
+    return null;
   }
 }
