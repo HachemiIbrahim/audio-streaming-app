@@ -38,3 +38,9 @@ def login(
             "email": user.email,
         },
     }
+
+
+@router.get("/")
+def get_current_user(token: str, db: Session = Depends(get_db)):
+    user = oauth2.get_current_user(token, db)
+    return user
