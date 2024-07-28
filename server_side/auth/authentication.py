@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlalchemy.orm.session import Session
 
+from auth import oauth2
+
 # from auth.oauth2 import create_access_token
 from database import get_db
 from models import models
@@ -24,10 +26,15 @@ def login(
             status_code=status.HTTP_404_NOT_FOUND, detail="Incorrect password"
         )
 
-    # access_token = create_access_token(data={"username": user.username})
+    access_token = oauth2.create_access_token(
+        data={"username": user.username, "id": user.id, "email": user.email}
+    )
 
     return {
-        "username": user.username,
-        "id": user.id,
-        "email": user.email,
+        "token": access_token,
+        "user": {
+            "username": user.username,
+            "id": user.id,
+            "email": user.email,
+        },
     }

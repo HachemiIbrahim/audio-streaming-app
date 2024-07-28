@@ -3,8 +3,16 @@ import 'package:music_app/core/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/features/auth/view/screens/signUp_screen.dart';
 
-void main() {
-  runApp(const ProviderScope(child: MainApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final container = ProviderContainer();
+  print("intialized");
+  runApp(
+    UncontrolledProviderScope(
+      container: container,
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

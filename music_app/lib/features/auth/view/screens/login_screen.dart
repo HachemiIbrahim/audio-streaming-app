@@ -46,6 +46,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 builder: (context) => const HomePage(),
               ),
             );
+            print(data);
           },
           error: (error, st) {
             showSnackBar(context, error.toString());
