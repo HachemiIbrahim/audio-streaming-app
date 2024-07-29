@@ -1,8 +1,10 @@
 from fastapi import HTTPException, status
+from sqlalchemy.orm import Session
+
+from auth import oauth2
 from models import models
 from routers.hashing import Hash
 from schemas.schema import UserBase
-from sqlalchemy.orm import Session
 
 
 def create(request: UserBase, db: Session):
@@ -11,10 +13,21 @@ def create(request: UserBase, db: Session):
         email=request.email,
         password=Hash.bycrypt(request.password),
     )
+
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    return new_user
+    access_token = oauth2.create_access_token(
+        data={"username": new_user.username, "id": new_user.id, "email": new_user.email}
+    )
+    return {
+        "token": access_token,
+        "user": {
+            "username": new_user.username,
+            "id": new_user.id,
+            "email": new_user.email,
+        },
+    }
 
 
 def get_user_by_email(db: Session, email=str):

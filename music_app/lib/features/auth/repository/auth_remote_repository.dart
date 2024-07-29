@@ -37,7 +37,11 @@ class AuthRemoteRepository {
         return Left(AppFailure(resBodyMap['detail']));
       }
 
-      return Right(UserModel.fromMap(resBodyMap));
+      return Right(
+        UserModel.fromMap(resBodyMap["user"]).copyWith(
+          token: resBodyMap["token"],
+        ),
+      );
     } catch (e) {
       return Left(AppFailure(e.toString()));
     }

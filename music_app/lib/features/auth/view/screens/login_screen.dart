@@ -8,7 +8,7 @@ import 'package:music_app/features/auth/view/widgets/elevated_button.dart';
 import 'package:music_app/core/widgets/text_field.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/features/auth/viewmodel/auth_viewmodel.dart';
-import 'package:music_app/features/home/view/screens/home_page.dart';
+import 'package:music_app/features/home/view/screens/home_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -40,13 +40,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       (_, next) {
         next?.when(
           data: (data) {
+            showSnackBar(
+              context,
+              'Welcome back !',
+            );
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomePage(),
+                builder: (context) => const HomeScreen(),
               ),
             );
-            print(data);
           },
           error: (error, st) {
             showSnackBar(context, error.toString());

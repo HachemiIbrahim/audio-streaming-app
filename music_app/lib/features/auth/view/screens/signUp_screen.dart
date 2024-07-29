@@ -7,6 +7,7 @@ import 'package:music_app/features/auth/view/widgets/elevated_button.dart';
 import 'package:music_app/core/widgets/text_field.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/features/auth/viewmodel/auth_viewmodel.dart';
+import 'package:music_app/features/home/view/screens/home_screen.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
@@ -43,12 +44,12 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           data: (data) {
             showSnackBar(
               context,
-              'Account created successfully! Please  login.',
+              'Account created successfully!',
             );
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const LoginScreen(),
+                builder: (context) => const HomeScreen(),
               ),
             );
           },
