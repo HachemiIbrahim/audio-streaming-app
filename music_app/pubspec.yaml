@@ -40,6 +40,8 @@ dependencies:
   http: ^1.2.2
   fpdart: ^1.1.0
   shared_preferences: ^2.2.3
+  dotted_border: ^2.1.0
+  flex_color_picker: ^3.5.1
 
 dev_dependencies:
   flutter_test:
