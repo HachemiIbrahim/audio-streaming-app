@@ -8,7 +8,7 @@ import 'package:music_app/features/auth/view/widgets/elevated_button.dart';
 import 'package:music_app/core/widgets/text_field.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/features/auth/viewmodel/auth_viewmodel.dart';
-import 'package:music_app/features/home/view/screens/home_screen.dart';
+import 'package:music_app/features/home/view/screens/upload_song.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -47,7 +47,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) => const UploadSong(),
               ),
             );
           },
