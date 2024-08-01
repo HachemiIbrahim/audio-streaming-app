@@ -18,6 +18,8 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onTap,
+      readOnly: readOnly,
       decoration: InputDecoration(
         hintText: hint,
       ),
