@@ -55,7 +55,7 @@ class _AudioWaveState extends State<AudioWave> {
         ),
         Expanded(
           child: AudioFileWaveforms(
-            size: Size(double.infinity, querry.height * 0.2),
+            size: Size(double.infinity, querry.height * 0.068),
             playerController: playerController,
             playerWaveStyle: const PlayerWaveStyle(
               fixedWaveColor: Pallete.borderColor,
