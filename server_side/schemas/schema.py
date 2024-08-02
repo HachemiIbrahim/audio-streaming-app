@@ -20,3 +20,33 @@ class User(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class SongBase(BaseModel):
+    songurl: str
+    tumbnailurl: str
+    artist: str
+    songname: str
+    hexcode: str
+
+
+class SongDisplay(BaseModel):
+    songurl: str
+    tumbnailurl: str
+    artist: str
+    songname: str
+    hexcode: str
+
+    class Config:
+        orm_mode = True
+
+
+class Song(BaseModel):
+    songurl: str
+    tumbnailurl: str
+    artist: str
+    songname: str
+    hexcode: str
+
+    class Config:
+        orm_mode = True
