@@ -7,6 +7,8 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:music_app/core/theme/pallete.dart';
 import 'package:music_app/core/utils.dart';
 import 'package:music_app/core/widgets/text_field.dart';
+import 'package:music_app/features/auth/repository/auth_local_repository.dart';
+import 'package:music_app/features/home/repository/home_repository.dart';
 import 'package:music_app/features/home/view/widget/audio_wave.dart';
 
 class UploadSong extends ConsumerStatefulWidget {
@@ -48,7 +50,16 @@ class _UploadSongState extends ConsumerState<UploadSong> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              ref.read(homeRepositoryProvider).uploadSong(
+                    selectedAudio: selectedAudio!,
+                    selectedThumbnail: selectedImage!,
+                    songName: "test",
+                    artist: "artist",
+                    hexCode: "ffffff",
+                    token: ref.read(authLocalRepositoryProvider).getToken()!,
+                  );
+            },
             icon: const Icon(Icons.check),
           ),
         ],

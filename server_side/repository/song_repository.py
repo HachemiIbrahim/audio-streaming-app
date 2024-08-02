@@ -5,6 +5,7 @@ import string
 from fastapi import Depends, File, Form, UploadFile
 from sqlalchemy.orm import Session
 
+from auth.oauth2 import verify_token
 from database import get_db
 from models import models
 
@@ -16,6 +17,7 @@ def upload_song(
     song_name: str = Form(...),
     hex_code: str = Form(...),
     db: Session = Depends(get_db),
+    auth_dict=Depends(verify_token),
 ):
 
     letters = string.ascii_letters

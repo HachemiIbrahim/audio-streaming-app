@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, File, Form, UploadFile
 from pytest import Session
 
+from auth.oauth2 import verify_token
 from database import get_db
 from repository import song_repository
 
@@ -18,6 +19,7 @@ def upload_song(
     song_name: str = Form(...),
     hex_code: str = Form(...),
     db: Session = Depends(get_db),
+    auth_dict=Depends(verify_token),
 ):
     return song_repository.upload_song(
         song=song,
@@ -26,4 +28,5 @@ def upload_song(
         hex_code=hex_code,
         song_name=song_name,
         thumbnail=thumbnail,
+        auth_dict=auth_dict,
     )

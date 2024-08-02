@@ -15,6 +15,12 @@ class UserDisplay(BaseModel):
         orm_mode = True
 
 
+class UserAuth(BaseModel):
+    id: int
+    username: str
+    email: str
+
+
 class User(BaseModel):
     username: str
 
