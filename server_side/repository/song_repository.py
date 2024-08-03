@@ -45,3 +45,11 @@ def upload_song(
     db.refresh(new_song)
 
     return new_song
+
+
+def get_all_songs(
+    db: Session,
+    auth_dict=Depends(verify_token),
+):
+    songs = db.query(models.Song).all()
+    return songs

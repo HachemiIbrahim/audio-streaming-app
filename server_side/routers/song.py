@@ -30,3 +30,12 @@ def upload_song(
         thumbnail=thumbnail,
         auth_dict=auth_dict,
     )
+
+
+@router.get("/songs")
+def get_all_songs(
+    db: Session = Depends(get_db),
+    auth_dict=Depends(verify_token),
+):
+    songs = song_repository.get_all_songs(db=db, auth_dict=auth_dict)
+    return songs
