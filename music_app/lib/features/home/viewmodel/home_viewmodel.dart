@@ -2,8 +2,8 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:fpdart/fpdart.dart';
-import 'package:music_app/core/providers/current_user_notifier.dart';
 import 'package:music_app/core/utils.dart';
+import 'package:music_app/features/auth/repository/auth_local_repository.dart';
 import 'package:music_app/features/home/repository/home_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'home_viewmodel.g.dart';
@@ -30,7 +30,7 @@ class HomeViewModel extends _$HomeViewModel {
       songName: songName,
       artist: artist,
       hexCode: rgbToHex(selectedColor),
-      token: ref.read(currentUserNotifierProvider)!.token,
+      token: ref.read(authLocalRepositoryProvider).getToken()!,
     );
 
     final val = switch (res) {
