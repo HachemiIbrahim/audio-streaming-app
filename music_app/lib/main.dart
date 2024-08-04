@@ -4,7 +4,7 @@ import 'package:music_app/core/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/features/auth/view/screens/signUp_screen.dart';
 import 'package:music_app/features/auth/viewmodel/auth_viewmodel.dart';
-import 'package:music_app/features/home/view/screens/upload_song.dart';
+import 'package:music_app/features/home/view/screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,7 @@ class MainApp extends ConsumerWidget {
     final currentUser = ref.watch(currentUserNotifierProvider);
     return MaterialApp(
       theme: AppTheme.darkTheme,
-      home: currentUser == null ? const SignupScreen() : const UploadSong(),
+      home: currentUser == null ? const SignupScreen() : const HomeScreen(),
     );
   }
 }

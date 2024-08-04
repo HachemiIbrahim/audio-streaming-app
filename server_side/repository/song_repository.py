@@ -1,13 +1,18 @@
-import random
-import shutil
-import string
-
+import cloudinary
+import cloudinary.uploader
 from fastapi import Depends, File, Form, UploadFile
 from sqlalchemy.orm import Session
 
 from auth.oauth2 import verify_token
 from database import get_db
 from models import models
+
+cloudinary.config(
+    cloud_name="dsomyc4hv",
+    api_key="433823972159394",
+    api_secret="i7gUk6UOSuARwXHRe6Wz-6Uu7uo",
+    secure=True,
+)
 
 
 def upload_song(
@@ -17,25 +22,19 @@ def upload_song(
     song_name: str = Form(...),
     hex_code: str = Form(...),
     db: Session = Depends(get_db),
-    auth_dict=Depends(verify_token),
+    # auth_dict=Depends(verify_token),
 ):
 
-    letters = string.ascii_letters
-    random_string = "".join(random.choice(letters) for i in range(6))
-    new = f"_{random_string}."
-    songfilename = new.join(song.filename.rsplit(".", 1))
-    thumbnailfilename = new.join(thumbnail.filename.rsplit(".", 1))
-    songpath = f"song/{songfilename}"
-    thumbnailpath = f"song/{thumbnailfilename}"
-
-    with open(songpath, "w+b") as buffer:
-        shutil.copyfileobj(song.file, buffer)
-    with open(thumbnailpath, "w+b") as buffer:
-        shutil.copyfileobj(thumbnail.file, buffer)
+    song_res = cloudinary.uploader.upload(
+        song.file, resource_type="auto", folder="songs"
+    )
+    thumbnail_res = cloudinary.uploader.upload(
+        thumbnail.file, resource_type="image", folder="songs"
+    )
 
     new_song = models.Song(
-        song_url=songpath,
-        thumbnail_url=thumbnailpath,
+        song_url=song_res["url"],
+        thumbnail_url=thumbnail_res["url"],
         artist=artist,
         song_name=song_name,
         hex_code=hex_code,

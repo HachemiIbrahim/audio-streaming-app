@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/core/theme/pallete.dart';
 import 'package:music_app/features/home/view/screens/library_screen.dart';
 import 'package:music_app/features/home/view/screens/song_screen.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
+  State<StatefulWidget> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
 
   final pages = const [
@@ -51,6 +50,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
       ),
+      body: pages[selectedIndex],
     );
   }
 }

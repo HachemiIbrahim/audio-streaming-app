@@ -30,6 +30,7 @@ dev_dependencies:
   custom_lint: ^0.6.4
   
 flutter:
+  
   uses-material-design: true
-assets:
+  assets:
     - assets/images/

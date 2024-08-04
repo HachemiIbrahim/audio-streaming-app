@@ -19,7 +19,7 @@ def upload_song(
     song_name: str = Form(...),
     hex_code: str = Form(...),
     db: Session = Depends(get_db),
-    auth_dict=Depends(verify_token),
+    # auth_dict=Depends(verify_token),
 ):
     return song_repository.upload_song(
         song=song,
@@ -28,7 +28,7 @@ def upload_song(
         hex_code=hex_code,
         song_name=song_name,
         thumbnail=thumbnail,
-        auth_dict=auth_dict,
+        # auth_dict=auth_dict,
     )
 
 
@@ -37,5 +37,8 @@ def get_all_songs(
     db: Session = Depends(get_db),
     auth_dict=Depends(verify_token),
 ):
-    songs = song_repository.get_all_songs(db=db, auth_dict=auth_dict)
+    songs = song_repository.get_all_songs(
+        db=db,
+        auth_dict=auth_dict,
+    )
     return songs
