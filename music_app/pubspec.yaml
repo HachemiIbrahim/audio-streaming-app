@@ -19,6 +19,7 @@ dependencies:
   flex_color_picker: ^3.5.1
   file_picker: ^8.0.6
   audio_waveforms: ^1.0.5
+  just_audio: ^0.9.39
 
 dev_dependencies:
   flutter_test:

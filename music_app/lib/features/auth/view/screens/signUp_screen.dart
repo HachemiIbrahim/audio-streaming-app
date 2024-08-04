@@ -8,7 +8,7 @@ import 'package:music_app/core/widgets/text_field.dart';
 import 'package:music_app/features/auth/view/screens/login_screen.dart';
 import 'package:music_app/features/auth/view/widgets/elevated_button.dart';
 import 'package:music_app/features/auth/viewmodel/auth_viewmodel.dart';
-import 'package:music_app/features/home/view/screens/upload_song.dart';
+import 'package:music_app/features/home/view/screens/home_screen.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
@@ -50,7 +50,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const UploadSong(),
+                builder: (context) => const HomeScreen(),
               ),
             );
           },
