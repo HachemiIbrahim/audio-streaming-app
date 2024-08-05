@@ -20,6 +20,7 @@ class CurrentSongNotifier extends _$CurrentSongNotifier {
     final audioSource = AudioSource.uri(
       Uri.parse(song.song_url),
     );
+    await audioPlayer!.setAudioSource(audioSource);
 
     audioPlayer!.playerStateStream.listen((state) {
       if (state.processingState == ProcessingState.completed) {
@@ -30,20 +31,26 @@ class CurrentSongNotifier extends _$CurrentSongNotifier {
         this.state = this.state?.copyWith(hex_code: this.state?.hex_code);
       }
     });
-
-    audioPlayer!.setAudioSource(audioSource);
+    audioPlayer!.play();
     isplaying = true;
     state = song;
   }
 
-  void playAndPause() {
+  void playPause() {
     if (isplaying) {
       audioPlayer?.pause();
     } else {
       audioPlayer?.play();
     }
-
     isplaying = !isplaying;
     state = state?.copyWith(hex_code: state?.hex_code);
+  }
+
+  void seek(double val) {
+    audioPlayer!.seek(
+      Duration(
+        milliseconds: (val * audioPlayer!.duration!.inMilliseconds).toInt(),
+      ),
+    );
   }
 }

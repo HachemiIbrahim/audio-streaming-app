@@ -22,7 +22,7 @@ def upload_song(
     song_name: str = Form(...),
     hex_code: str = Form(...),
     db: Session = Depends(get_db),
-    # auth_dict=Depends(verify_token),
+    auth_dict=Depends(verify_token),
 ):
 
     song_res = cloudinary.uploader.upload(
