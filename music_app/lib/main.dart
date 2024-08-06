@@ -7,11 +7,17 @@ import 'package:music_app/features/auth/view/screens/signUp_screen.dart';
 import 'package:music_app/features/auth/viewmodel/auth_viewmodel.dart';
 import 'package:music_app/features/home/view/screens/home_screen.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:hive/hive.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
   final dir = await getApplicationDocumentsDirectory();
   Hive.defaultDirectory = dir.path;
   final container = ProviderContainer();

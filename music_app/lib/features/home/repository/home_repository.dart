@@ -26,7 +26,7 @@ class HomeRepository {
     try {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('${dotenv.env["Base_url"]}/song/upload'),
+        Uri.parse('${dotenv.env["Emulator_url"]}/song/upload'),
       );
 
       request
@@ -68,7 +68,7 @@ class HomeRepository {
   }) async {
     try {
       final res = await http.get(
-        Uri.parse('${dotenv.env["Base_url"]}/song/songs'),
+        Uri.parse('${dotenv.env["Emulator_url"]}/song/songs'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
