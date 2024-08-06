@@ -18,16 +18,17 @@ class _HomeScreenState extends State<HomeScreen> {
     SongScreen(),
     LibraryScreen(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
+          pages[selectedIndex],
           const Positioned(
             bottom: 0,
             child: AudioSlab(),
           ),
-          pages[selectedIndex],
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

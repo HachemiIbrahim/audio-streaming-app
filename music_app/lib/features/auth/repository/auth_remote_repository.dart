@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:music_app/core/failure/failure.dart';
 import 'package:music_app/features/auth/model/user_model.dart';
@@ -19,7 +20,7 @@ class AuthRemoteRepository {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/user/signup"),
+        Uri.parse("${dotenv.env["Base_url"]}/user/signup"),
         headers: {
           'Content-Type': 'application/json', // Set the content type
         },
@@ -53,7 +54,7 @@ class AuthRemoteRepository {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/login"),
+        Uri.parse("${dotenv.env["Base_url"]}/login"),
         headers: {},
         body: {
           'username': email,
@@ -83,7 +84,7 @@ class AuthRemoteRepository {
   Future<Either<AppFailure, UserModel>> getCurrentUserData(String token) async {
     try {
       final response = await http.get(
-        Uri.parse("http://10.0.2.2:8000/?token=$token"),
+        Uri.parse("${dotenv.env["Base_url"]}/?token=$token"),
         headers: {
           'Content-Type': 'application/json',
         },

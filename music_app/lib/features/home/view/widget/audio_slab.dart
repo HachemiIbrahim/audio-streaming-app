@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/core/providers/current_song_notifier.dart';
 import 'package:music_app/core/theme/pallete.dart';
 import 'package:music_app/core/utils.dart';
-import 'package:music_app/features/home/view/widget/nusic_player.dart';
+import 'package:music_app/features/home/view/widget/music_player.dart';
 
 class AudioSlab extends ConsumerWidget {
   const AudioSlab({super.key});
@@ -13,113 +13,117 @@ class AudioSlab extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentSong = ref.watch(currentSongNotifierProvider);
     final songNotifier = ref.read(currentSongNotifierProvider.notifier);
+
     if (currentSong == null) {
       return const SizedBox();
     }
+
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) {
-              return const MusicPlayer();
-            },
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              final tween =
-                  Tween(begin: const Offset(0, 1), end: Offset.zero).chain(
-                CurveTween(
-                  curve: Curves.easeIn,
-                ),
-              );
-
-              final offsetAnimation = animation.drive(tween);
-
-              return SlideTransition(
-                position: offsetAnimation,
-                child: child,
-              );
-            },
+          MaterialPageRoute(
+            builder: (context) => MusicPlayer(),
           ),
         );
+        //   PageRouteBuilder(
+        //     pageBuilder: (context, animation, secondaryAnimation) {
+        //       return const MusicPlayer();
+        //     },
+        //     transitionsBuilder:
+        //         (context, animation, secondaryAnimation, child) {
+        //       final tween =
+        //           Tween(begin: const Offset(0, 1), end: Offset.zero).chain(
+        //         CurveTween(
+        //           curve: Curves.easeIn,
+        //         ),
+        //       );
+
+        //       final offsetAnimation = animation.drive(tween);
+
+        //       return SlideTransition(
+        //         position: offsetAnimation,
+        //         child: child,
+        //       );
+        //     },
+        //   ),
+        // );
       },
       child: Stack(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.07,
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            height: 66,
+            width: MediaQuery.of(context).size.width - 16,
             decoration: BoxDecoration(
               color: hexToColor(currentSong.hex_code),
+              borderRadius: BorderRadius.circular(4),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Hero(
-                        tag: 'music-image',
-                        child: Container(
-                          width: 48,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                currentSong.thumbnail_url,
-                              ),
-                              fit: BoxFit.cover,
+            padding: const EdgeInsets.all(9),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Hero(
+                      tag: 'music-image',
+                      child: Container(
+                        width: 48,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              currentSong.thumbnail_url,
                             ),
-                            borderRadius: BorderRadius.circular(4),
+                            fit: BoxFit.cover,
                           ),
+                          borderRadius: BorderRadius.circular(4),
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            currentSong.song_name,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
+                    ),
+                    const SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          currentSong.song_name,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
                           ),
-                          Text(
-                            currentSong.artist,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Pallete.subtitleText,
-                            ),
+                        ),
+                        Text(
+                          currentSong.artist,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Pallete.subtitleText,
                           ),
-                        ],
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () async {},
-                        icon: const Icon(
-                          CupertinoIcons.heart,
-                          color: Pallete.whiteColor,
                         ),
+                      ],
+                    )
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        CupertinoIcons.heart,
+                        color: Pallete.whiteColor,
                       ),
-                      IconButton(
-                        onPressed: () {
-                          songNotifier.playPause();
-                        },
-                        icon: Icon(
-                          songNotifier.isplaying
-                              ? CupertinoIcons.pause_fill
-                              : CupertinoIcons.play_fill,
-                          color: Pallete.whiteColor,
-                        ),
+                    ),
+                    IconButton(
+                      onPressed: songNotifier.playPause,
+                      icon: Icon(
+                        songNotifier.isplaying
+                            ? CupertinoIcons.pause_fill
+                            : CupertinoIcons.play_fill,
+                        color: Pallete.whiteColor,
                       ),
-                    ],
-                  )
-                ],
-              ),
+                    ),
+                  ],
+                )
+              ],
             ),
           ),
           StreamBuilder(

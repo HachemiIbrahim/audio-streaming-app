@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:fpdart/fpdart.dart';
 import 'package:music_app/core/failure/failure.dart';
@@ -25,7 +26,7 @@ class HomeRepository {
     try {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('http://10.0.2.2:8000/song/upload'),
+        Uri.parse('${dotenv.env["Base_url"]}/song/upload'),
       );
 
       request
@@ -67,7 +68,7 @@ class HomeRepository {
   }) async {
     try {
       final res = await http.get(
-        Uri.parse('http://10.0.2.2:8000/song/songs'),
+        Uri.parse('${dotenv.env["Base_url"]}/song/songs'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
