@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/core/providers/current_song_notifier.dart';
 import 'package:music_app/core/theme/pallete.dart';
 import 'package:music_app/core/utils.dart';
+import 'package:music_app/features/auth/repository/auth_local_repository.dart';
+import 'package:music_app/features/home/repository/home_repository.dart';
 import 'package:music_app/features/home/view/widget/music_player.dart';
 
 class AudioSlab extends ConsumerWidget {
@@ -21,32 +23,28 @@ class AudioSlab extends ConsumerWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => MusicPlayer(),
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) {
+              return const MusicPlayer();
+            },
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              final tween =
+                  Tween(begin: const Offset(0, 1), end: Offset.zero).chain(
+                CurveTween(
+                  curve: Curves.easeIn,
+                ),
+              );
+
+              final offsetAnimation = animation.drive(tween);
+
+              return SlideTransition(
+                position: offsetAnimation,
+                child: child,
+              );
+            },
           ),
         );
-        //   PageRouteBuilder(
-        //     pageBuilder: (context, animation, secondaryAnimation) {
-        //       return const MusicPlayer();
-        //     },
-        //     transitionsBuilder:
-        //         (context, animation, secondaryAnimation, child) {
-        //       final tween =
-        //           Tween(begin: const Offset(0, 1), end: Offset.zero).chain(
-        //         CurveTween(
-        //           curve: Curves.easeIn,
-        //         ),
-        //       );
-
-        //       final offsetAnimation = animation.drive(tween);
-
-        //       return SlideTransition(
-        //         position: offsetAnimation,
-        //         child: child,
-        //       );
-        //     },
-        //   ),
-        // );
       },
       child: Stack(
         children: [
@@ -106,7 +104,13 @@ class AudioSlab extends ConsumerWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        final token =
+                            ref.read(authLocalRepositoryProvider).getToken()!;
+                        ref
+                            .read(homeRepositoryProvider)
+                            .favSong(token: token, song: currentSong);
+                      },
                       icon: const Icon(
                         CupertinoIcons.heart,
                         color: Pallete.whiteColor,

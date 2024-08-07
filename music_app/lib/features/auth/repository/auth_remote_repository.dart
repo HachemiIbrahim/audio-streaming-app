@@ -20,7 +20,7 @@ class AuthRemoteRepository {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse("${dotenv.env["Emulator_url"]}/user/signup"),
+        Uri.parse("${dotenv.env["Base_url"]}/user/signup"),
         headers: {
           'Content-Type': 'application/json', // Set the content type
         },
@@ -54,7 +54,7 @@ class AuthRemoteRepository {
   }) async {
     try {
       final response = await http.post(
-        Uri.parse("${dotenv.env["Emulator_url"]}/login"),
+        Uri.parse("${dotenv.env["Base_url"]}/login"),
         headers: {},
         body: {
           'username': email,
@@ -84,7 +84,7 @@ class AuthRemoteRepository {
   Future<Either<AppFailure, UserModel>> getCurrentUserData(String token) async {
     try {
       final response = await http.get(
-        Uri.parse("${dotenv.env["Emulator_url"]}/?token=$token"),
+        Uri.parse("${dotenv.env["Base_url"]}/?token=$token"),
         headers: {
           'Content-Type': 'application/json',
         },

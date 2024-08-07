@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
 
 from database import Base
 
@@ -10,6 +11,7 @@ class User(Base):
     email = Column(String)
     password = Column(String)
     username = Column(String)
+    favorites = relationship("Favorites", back_populates="user")
 
 
 class Song(Base):
@@ -21,3 +23,14 @@ class Song(Base):
     artist = Column(String)
     song_name = Column(String)
     hex_code = Column(String)
+
+
+class Favorites(Base):
+    __tablename__ = "favorites"
+
+    id = Column(Integer, primary_key=True, index=True)
+    song_id = Column(Integer, ForeignKey("songs.id"))
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+    song = relationship("Song")
+    user = relationship("User", back_populates="favorites")

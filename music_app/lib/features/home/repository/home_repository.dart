@@ -26,7 +26,7 @@ class HomeRepository {
     try {
       final request = http.MultipartRequest(
         'POST',
-        Uri.parse('${dotenv.env["Emulator_url"]}/song/upload'),
+        Uri.parse('${dotenv.env["Base_url"]}/song/upload'),
       );
 
       request
@@ -68,7 +68,7 @@ class HomeRepository {
   }) async {
     try {
       final res = await http.get(
-        Uri.parse('${dotenv.env["Emulator_url"]}/song/songs'),
+        Uri.parse('${dotenv.env["Base_url"]}/song/songs'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -95,6 +95,36 @@ class HomeRepository {
           e.toString(),
         ),
       );
+    }
+  }
+
+  Future<Either<AppFailure, bool>> favSong({
+    required String token,
+    required SongModel song,
+  }) async {
+    try {
+      final res = await http.post(
+        Uri.parse('${dotenv.env["Base_url"]}/song/favorite'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(
+          {
+            "song_id": song.id,
+          },
+        ),
+      );
+      var resBodyMap = jsonDecode(res.body);
+
+      if (res.statusCode != 200) {
+        resBodyMap = resBodyMap as Map<String, dynamic>;
+        return Left(AppFailure(resBodyMap['detail']));
+      }
+
+      return Right(resBodyMap['message']);
+    } catch (e) {
+      return Left(AppFailure(e.toString()));
     }
   }
 }

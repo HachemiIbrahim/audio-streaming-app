@@ -48,6 +48,7 @@ class SongDisplay(BaseModel):
 
 
 class Song(BaseModel):
+    id: int
     songurl: str
     tumbnailurl: str
     artist: str

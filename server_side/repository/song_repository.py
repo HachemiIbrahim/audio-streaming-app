@@ -52,3 +52,31 @@ def get_all_songs(
 ):
     songs = db.query(models.Song).all()
     return songs
+
+
+def favorite_song(
+    song_id: int = Form(...),
+    db: Session = Depends(get_db),
+    auth_dict=Depends(verify_token),
+):
+    # song is already favorited by the user
+    user_id = auth_dict["id"]
+    uid = int(user_id)
+    fav_song = (
+        db.query(models.Favorites)
+        .filter(
+            models.Favorites.song_id == song_id,
+            models.Favorites.user_id == uid,
+        )
+        .first()
+    )
+
+    if fav_song:
+        db.delete(fav_song)
+        db.commit()
+        return {"message": False}
+    else:
+        new_fav = models.Favorites(song_id=song_id, user_id=uid)
+        db.add(new_fav)
+        db.commit()
+        return {"message": True}

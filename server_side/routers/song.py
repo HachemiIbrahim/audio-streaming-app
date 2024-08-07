@@ -42,3 +42,17 @@ def get_all_songs(
         auth_dict=auth_dict,
     )
     return songs
+
+
+@router.post("/favorite")
+def favorite_song(
+    song_id: int = Form(...),
+    db: Session = Depends(get_db),
+    auth_dict=Depends(verify_token),
+):
+    response = song_repository.favorite_song(
+        song_id=song_id,
+        db=db,
+        auth_dict=auth_dict,
+    )
+    return response
