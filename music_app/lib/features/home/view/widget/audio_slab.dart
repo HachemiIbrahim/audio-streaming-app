@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/core/providers/current_song_notifier.dart';
 import 'package:music_app/core/theme/pallete.dart';
 import 'package:music_app/core/utils.dart';
-import 'package:music_app/features/auth/repository/auth_local_repository.dart';
-import 'package:music_app/features/home/repository/home_repository.dart';
+
 import 'package:music_app/features/home/view/widget/music_player.dart';
+import 'package:music_app/features/home/viewmodel/home_viewmodel.dart';
 
 class AudioSlab extends ConsumerWidget {
   const AudioSlab({super.key});
@@ -104,12 +104,10 @@ class AudioSlab extends ConsumerWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {
-                        final token =
-                            ref.read(authLocalRepositoryProvider).getToken()!;
-                        ref
-                            .read(homeRepositoryProvider)
-                            .favSong(token: token, song: currentSong);
+                      onPressed: () async {
+                        await ref
+                            .read(homeViewModelProvider.notifier)
+                            .favSong(songId: currentSong.id);
                       },
                       icon: const Icon(
                         CupertinoIcons.heart,

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:music_app/core/providers/current_song_notifier.dart';
 import 'package:music_app/core/theme/pallete.dart';
 import 'package:music_app/core/utils.dart';
+import 'package:music_app/features/home/viewmodel/home_viewmodel.dart';
 
 class MusicPlayer extends ConsumerWidget {
   const MusicPlayer({super.key});
@@ -98,7 +99,11 @@ class MusicPlayer extends ConsumerWidget {
                       ),
                       const Expanded(child: SizedBox()),
                       IconButton(
-                        onPressed: () async {},
+                        onPressed: () async {
+                          await ref
+                              .read(homeViewModelProvider.notifier)
+                              .favSong(songId: currentSong.id);
+                        },
                         icon: const Icon(
                           CupertinoIcons.heart,
                           color: Pallete.whiteColor,

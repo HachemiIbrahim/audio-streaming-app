@@ -84,7 +84,8 @@ def list_fav_songs(
     db: Session = Depends(get_db),
     auth_dict=Depends(verify_token),
 ):
-    user_id = auth_dict["uid"]
+    user_id = auth_dict["id"]
+
     fav_songs = (
         db.query(models.Favorites)
         .filter(models.Favorites.user_id == user_id)

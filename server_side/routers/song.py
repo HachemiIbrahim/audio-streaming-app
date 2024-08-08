@@ -64,6 +64,9 @@ def list_fav_songs(
     db: Session = Depends(get_db),
     auth_dict=Depends(verify_token),
 ):
-    response = song_repository.list_fav_songs(auth_dict=auth_dict, db=db)
+    response = song_repository.list_fav_songs(
+        auth_dict=auth_dict,
+        db=db,
+    )
 
     return response

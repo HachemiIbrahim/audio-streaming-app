@@ -100,7 +100,7 @@ class HomeRepository {
 
   Future<Either<AppFailure, bool>> favSong({
     required String token,
-    required SongModel song,
+    required int songId,
   }) async {
     try {
       final res = await http.post(
@@ -111,7 +111,7 @@ class HomeRepository {
         },
         body: jsonEncode(
           {
-            'song_id': song.id,
+            'song_id': songId,
           },
         ),
       );
@@ -123,6 +123,36 @@ class HomeRepository {
       }
 
       return Right(resBodyMap['message']);
+    } catch (e) {
+      return Left(AppFailure(e.toString()));
+    }
+  }
+
+  Future<Either<AppFailure, List<SongModel>>> getFavSongs({
+    required String token,
+  }) async {
+    try {
+      final res = await http.get(
+        Uri.parse('${dotenv.env["Base_url"]}/song/list/favorite'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      var resBodyMap = jsonDecode(res.body);
+
+      if (res.statusCode != 200) {
+        resBodyMap = resBodyMap as Map<String, dynamic>;
+        return Left(AppFailure(resBodyMap['detail']));
+      }
+      resBodyMap = resBodyMap as List;
+      List<SongModel> songs = [];
+
+      for (final map in resBodyMap) {
+        songs.add(SongModel.fromMap(map['song']));
+      }
+
+      return Right(songs);
     } catch (e) {
       return Left(AppFailure(e.toString()));
     }
