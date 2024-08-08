@@ -4,6 +4,7 @@ from pytest import Session
 from auth.oauth2 import verify_token
 from database import get_db
 from repository import song_repository
+from schemas.schema import FavoriteSongRequest
 
 router = APIRouter(
     prefix="/song",
@@ -44,14 +45,14 @@ def get_all_songs(
     return songs
 
 
-@router.post("/favorite")
+@router.post("/favorite", status_code=201)
 def favorite_song(
-    song_id: int = Form(...),
+    request: FavoriteSongRequest,
     db: Session = Depends(get_db),
     auth_dict=Depends(verify_token),
 ):
     response = song_repository.favorite_song(
-        song_id=song_id,
+        song_id=request.song_id,
         db=db,
         auth_dict=auth_dict,
     )

@@ -111,13 +111,13 @@ class HomeRepository {
         },
         body: jsonEncode(
           {
-            "song_id": song.id,
+            'song_id': song.id,
           },
         ),
       );
       var resBodyMap = jsonDecode(res.body);
 
-      if (res.statusCode != 200) {
+      if (res.statusCode != 201) {
         resBodyMap = resBodyMap as Map<String, dynamic>;
         return Left(AppFailure(resBodyMap['detail']));
       }

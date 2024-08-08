@@ -57,3 +57,7 @@ class Song(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class FavoriteSongRequest(BaseModel):
+    song_id: int

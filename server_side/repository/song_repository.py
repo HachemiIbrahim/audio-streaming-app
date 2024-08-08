@@ -55,13 +55,11 @@ def get_all_songs(
 
 
 def favorite_song(
-    song_id: int = Form(...),
+    song_id: int,
     db: Session = Depends(get_db),
     auth_dict=Depends(verify_token),
 ):
-    # song is already favorited by the user
-    user_id = auth_dict["id"]
-    uid = int(user_id)
+    uid = auth_dict["id"]
     fav_song = (
         db.query(models.Favorites)
         .filter(
