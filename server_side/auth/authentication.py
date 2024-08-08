@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
+from sqlalchemy.orm import joinedload
 from sqlalchemy.orm.session import Session
 
 from auth import oauth2
@@ -43,7 +44,17 @@ def login(
 @router.get("/")
 def get_current_user(token: str, db: Session = Depends(get_db)):
     response = oauth2.verify_token(token, db)
-    user = db.query(models.User).filter(models.User.id == response["id"]).first()
+    user = (
+        db.query(models.User)
+        .filter(
+            models.User.id == response["id"],
+        )
+        .options(
+            joinedload(models.User.favorites),
+        )
+        .first()
+    )
+
     if not user:
         raise HTTPException(404, "User not found!")
 
@@ -51,4 +62,5 @@ def get_current_user(token: str, db: Session = Depends(get_db)):
         "username": user.username,
         "id": user.id,
         "email": user.email,
+        "favorites": user.favorites,
     }
