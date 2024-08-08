@@ -57,3 +57,13 @@ def favorite_song(
         auth_dict=auth_dict,
     )
     return response
+
+
+@router.get("/list/favorite", status_code=200)
+def list_fav_songs(
+    db: Session = Depends(get_db),
+    auth_dict=Depends(verify_token),
+):
+    response = song_repository.list_fav_songs(auth_dict=auth_dict, db=db)
+
+    return response

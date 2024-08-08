@@ -1,7 +1,7 @@
 import cloudinary
 import cloudinary.uploader
 from fastapi import Depends, File, Form, UploadFile
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from auth.oauth2 import verify_token
 from database import get_db
@@ -78,3 +78,20 @@ def favorite_song(
         db.add(new_fav)
         db.commit()
         return {"message": True}
+
+
+def list_fav_songs(
+    db: Session = Depends(get_db),
+    auth_dict=Depends(verify_token),
+):
+    user_id = auth_dict["uid"]
+    fav_songs = (
+        db.query(models.Favorites)
+        .filter(models.Favorites.user_id == user_id)
+        .options(
+            joinedload(models.Favorites.song),
+        )
+        .all()
+    )
+
+    return fav_songs
