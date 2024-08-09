@@ -22,8 +22,7 @@ void main() async {
   Hive.defaultDirectory = dir.path;
   final container = ProviderContainer();
   await container.read(authViewModelProvider.notifier).initSharedPreferences();
-  final user = await container.read(authViewModelProvider.notifier).getData();
-  print(user);
+  await container.read(authViewModelProvider.notifier).getData();
   runApp(
     UncontrolledProviderScope(
       container: container,

@@ -65,6 +65,7 @@ class AuthViewModel extends _$AuthViewModel {
 
   AsyncValue<UserModel>? _loginSuccess(UserModel user) {
     _authLocalRepository.setToken(user.token);
+    ref.read(currentUserNotifierProvider.notifier).addUser(user);
     return state = AsyncValue.data(user);
   }
 

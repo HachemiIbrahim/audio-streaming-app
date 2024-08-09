@@ -2,8 +2,10 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:fpdart/fpdart.dart';
+import 'package:music_app/core/providers/current_user_notifier.dart';
 import 'package:music_app/core/utils.dart';
 import 'package:music_app/features/auth/repository/auth_local_repository.dart';
+import 'package:music_app/features/home/models/fav_song_model.dart';
 import 'package:music_app/features/home/models/song_model.dart';
 import 'package:music_app/features/home/repository/home_local_repository.dart';
 import 'package:music_app/features/home/repository/home_repository.dart';
@@ -84,8 +86,40 @@ class HomeViewModel extends _$HomeViewModel {
     final val = switch (res) {
       Left(value: final l) => state =
           AsyncValue.error(l.message, StackTrace.current),
-      Right(value: final r) => AsyncValue.data(r),
+      Right(value: final r) => _favSongSuccess(r, songId),
     };
     print(val);
+  }
+
+  AsyncValue _favSongSuccess(bool isFavorited, int songId) {
+    final userNotifier = ref.read(currentUserNotifierProvider.notifier);
+    if (isFavorited) {
+      userNotifier.addUser(
+        ref.read(currentUserNotifierProvider)!.copyWith(
+          favorites: [
+            ...ref.read(currentUserNotifierProvider)!.favorites,
+            FavSongModel(
+              id: 0,
+              song_id: songId,
+              user_id: 0,
+            ),
+          ],
+        ),
+      );
+    } else {
+      userNotifier.addUser(
+        ref.read(currentUserNotifierProvider)!.copyWith(
+              favorites: ref
+                  .read(currentUserNotifierProvider)!
+                  .favorites
+                  .where(
+                    (fav) => fav.song_id != songId,
+                  )
+                  .toList(),
+            ),
+      );
+    }
+    ref.invalidate(getFavSongsProvider);
+    return state = AsyncValue.data(isFavorited);
   }
 }
