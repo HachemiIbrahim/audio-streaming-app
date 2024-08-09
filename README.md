@@ -79,8 +79,4 @@ Bash
 
 flutter run
 
-### Contributing
-
-Contributions are welcome! Please follow the standard contribution guidelines.
-
 For any inquiries or issues, please feel free to contact me.
