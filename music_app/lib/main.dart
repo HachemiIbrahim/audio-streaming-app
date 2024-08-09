@@ -38,6 +38,7 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserNotifierProvider);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
       home: currentUser == null ? const SignupScreen() : const HomeScreen(),
     );
