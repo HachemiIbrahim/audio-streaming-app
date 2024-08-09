@@ -23,12 +23,7 @@ The project is divided into two main components:
 
     User Authentication: Secure user registration, login, and profile management.
     Podcast Discovery: Browse and search for podcasts based on various criteria.
-    Podcast Subscription: Subscribe to favorite podcasts for easy access.
-    Episode Playback: Stream and download podcast episodes.
-    Playlists: Create and manage personalized playlists.
-    Offline Listening: Enjoy podcasts offline through local storage.
-    User Reviews and Ratings: Provide feedback on podcasts and episodes.
-    Push Notifications: Receive updates on new episodes and recommendations.
+    Episode Playback: Stream podcast episodes.
 
 ### Technologies Used
 
@@ -37,37 +32,29 @@ The project is divided into two main components:
     Hive: NoSQL database for local data storage.
     FastAPI: High-performance Python web framework for the backend API.
     SQLite: Embedded database for storing podcast metadata and user data.
-    MVVM: Architectural pattern for clean code separation.
 
 ### Getting Started
 
     Clone the repository:
-    Bash
 
     git clone https://github.com/your-username/audio-podcasting-app.git
 
-    Utilisez ce code avec précaution.
 
 Set up the backend environment:
 
     Install required Python packages:
-    Bash
 
     pip install fastapi uvicorn sqlalchemy
 
-    Utilisez ce code avec précaution.
-
-    Configure database connection details in the server_client folder.
+    
 
 Set up the frontend environment:
 
     Install Flutter SDK.
     Install required Dart packages:
-    Bash
 
     flutter pub get
 
-    Utilisez ce code avec précaution.
 
 Run the backend:
 Bash
@@ -80,3 +67,9 @@ Bash
 flutter run
 
 For any inquiries or issues, please feel free to contact me.
+
+ <p>
+  <img src="images/Screenshot 2024-08-09 135911.png" alt="Image Description" style="margin-right: 10px;">
+  <img src="images/Screenshot 2024-08-09 135911.png" alt="Image Description" style="margin-right: 10px;">
+
+</p>
