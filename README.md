@@ -1,8 +1,8 @@
-# Audio Podcasting App
+# Audio Streaming App
 
 ### Overview
 
-This project is a comprehensive audio podcasting application built using Flutter for the frontend, Riverpod for state management, Hive for local data storage, and FastAPI for the backend API. It utilizes a SQLite database for efficient data management and adheres to the MVVM architectural pattern for clean code separation and maintainability.
+This project is a comprehensive audio streaming application built using Flutter for the frontend, Riverpod for state management, Hive for local data storage, and FastAPI for the backend API. It utilizes a SQLite database for efficient data management and adheres to the MVVM architectural pattern for clean code separation and maintainability.
 
 ### Project Structure
 
